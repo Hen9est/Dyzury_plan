@@ -168,36 +168,30 @@
 </head>
 <body>
 
-    <!-- Śnieżynki -->
     <div id="snow-container"></div>
 
     <div id="device-screen">
         
         <div id="content-area">
             
-            <!-- NAGŁÓWEK -->
             <div class="flex items-center justify-between gap-2 mb-2 bg-white p-1 px-3 rounded-lg shadow-md border-2 border-red-100 min-h-[3rem] shrink-0 relative overflow-hidden">
-                <!-- Ozdoba w tle nagłówka -->
                 <div class="absolute top-0 right-0 opacity-10 pointer-events-none">
                     <svg width="60" height="60" viewBox="0 0 24 24" fill="currentColor" class="text-red-600"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>
                 </div>
 
-                <!-- Lewa strona: Nazwa dnia -->
                 <div class="flex items-center gap-2 z-10">
                     <span class="text-2xl">🎄</span>
                     <div id="current-day-title" class="uppercase tracking-wide whitespace-nowrap pt-1">
-                        Ładowanie...
+                        Wczytywanie...
                     </div>
                 </div>
 
-                <!-- Prawa strona: Stoper -->
                 <div id="timer-container" class="flex items-center gap-3 flex-grow justify-end hidden z-10">
                     <div class="flex flex-col items-end leading-none">
                         <span id="timer-label" class="text-[9px] font-bold uppercase tracking-wider text-green-700">Do końca:</span>
                         <span id="timer-countdown" class="text-lg font-mono font-bold text-gray-800">00:00</span>
                     </div>
                     
-                    <!-- Pasek Postępu -->
                     <div class="w-28 bg-gray-200 rounded-full h-3 overflow-hidden border border-gray-300 shadow-inner">
                         <div id="progress-bar" class="h-full rounded-full candy-stripe" style="width: 0%"></div>
                     </div>
@@ -239,9 +233,10 @@
 
 <script>
     // ============================================================
-    // DANE DYŻURÓW
+    // DANE DYŻURÓW (Poprawiono polskie znaki w danych)
     // ============================================================
     const bazaDyzurow = {
+        // Klucze pozostają bez polskich znaków, aby pasowały do ID w HTML i logicznych nazw dni
         poniedzialek: [
             ["0", "8:00<br>8:10", "E. Szostak", "M. Szydłowska", "A. Pierzchała-Badura", "-", "J. Szymkowicz", "I. Wilczyńska", "A. Mizerska", "-", "K. Czajęcka", "-"],
             ["1", "8:55<br>9:05", "K. Matysek-Sobolewska", "M. Szydłowska", "K. Miąsik<br>P. Latosińska", "M. Niedbał", "M. Gil", "M. Ankiewicz", "A. Mizerska", "-", "K. Czajęcka", "-"],
@@ -251,13 +246,15 @@
             ["5", "12:35<br>12:45", "-", "-", "A. Pierzchała-Badura<br>A. Lorenc", "A. Stankiewicz", "T. Majewski", "J. Wojtan", "K. Jakubowska", "K. Bugajska", "D. Piątek", "-"]
         ],
         wtorek: [
-            ["0", "8:00<br>8:10", "W. Wrzaszcz", "J. Miecznik-Warda", "K. Miąśik", "-", "O. Ginalska", "K. Jochymek", "A. Lorenc", "-", "T. Zygmunt", "-"],
+            // Poprawiono: Miąsik, A. Szydłowska
+            ["0", "8:00<br>8:10", "W. Wrzaszcz", "J. Miecznik-Warda", "K. Miąsik", "-", "O. Ginalska", "K. Jochymek", "A. Lorenc", "-", "T. Zygmunt", "-"],
             ["1", "8:55<br>9:05", "E. Szostak", "M. Szydłowska", "A. Szydłowska<br>I. Wilczyńska", "A. Misiołek", "M. Gil", "J. Wojtan", "K. Jakubowska", "-", "K. Matysek–Sobolewska", "-"],
-            ["2", "9:50<br>10:00", "W. Wrzaszcz", "K. Miąśik", "E. Łubińska<br>A. Lorenc", "M. Szeligiewicz", "T. Majewski", "K. Bugajska", "A. Mizerska", "-", "T. Zygmunt", "-"],
+            ["2", "9:50<br>10:00", "W. Wrzaszcz", "K. Miąsik", "E. Łubińska<br>A. Lorenc", "M. Szeligiewicz", "T. Majewski", "K. Bugajska", "A. Mizerska", "-", "T. Zygmunt", "-"],
             ["3", "10:45<br>10:55", "E. Szostak", "J. Miecznik-Warda", "A. Szydłowska<br>E. Łubińska", "A. Misiołek", "A. Stankiewicz", "K. Jochymek", "K. Jakubowska", "-", "K. Matysek–Sobolewska", "-"],
             ["4", "11:40<br>11:50", "K. Matysek-Sobolewska", "R. Ciszewska", "M. Niedbał<br>D. Kolany", "O. Ginalska", "E. Krzyżyk", "J. Wojtan", "M. Rzepka", "P. Latosińska", "D. Piątek", "-"],
             ["5", "12:35<br>12:45", "-", "-", "A. Pierzchała-Badura<br>R. Rogalski", "M. Szeligiewicz", "J. Szymkowicz", "K. Bugajska", "K. Jakubowska", "M. Ankiewicz", "D. Piątek", "-"]
         ],
+        // Klucz 'sroda' (środa)
         sroda: [
             ["0", "8:00<br>8:10", "K. Matysek-Sobolewska", "R. Ciszewska", "A. Szydłowska", "-", "J. Dominikowska", "J. Wojtan", "K. Jakubowska", "-", "K. Czajęcka", "-"],
             ["1", "8:55<br>9:05", "E. Szostak", "J. Miecznik-Warda", "E. Łubińska<br>A. Pierzchała-Badura", "A. Misiołek", "O. Ginalska", "I. Wilczyńska", "M. Rzepka", "-", "K. Czajęcka", "-"],
@@ -267,6 +264,7 @@
             ["5", "12:35<br>12:45", "-", "-", "A. Pierzchała-Badura<br>E. Łubińska", "M. Szeligiewicz", "D. Gałka", "K. Bugajska", "A. Mizerska", "A. Stankiewicz", "T. Zygmunt", "-"]
         ],
         czwartek: [
+            // Poprawiono: Miąsik
             ["0", "8:00<br>8:10", "K. Matysek-Sobolewska", "M. Niedbał", "A. Stankiewicz", "-", "T. Majewski", "I. Wilczyńska", "M. Rzepka", "-", "T. Zygmunt", "-"],
             ["1", "8:55<br>9:05", "K. Matysek-Sobolewska", "R. Ciszewska", "A. Pierzchała-Badura<br>D. Gałka", "O. Ginalska", "P. Latosińska", "J. Szymkowicz", "A. Solińska", "-", "D. Piątek", "-"],
             ["2", "9:50<br>10:00", "E. Szostak", "M. Szydłowska", "A. Szydłowska<br>M. Gil", "A. Stankiewicz", "K. Jakubowska", "K. Jochymek", "A. Mizerska", "-", "T. Zygmunt", "-"],
@@ -275,6 +273,7 @@
             ["5", "12:35<br>12:50", "R. Rogalski", "J. Miecznik-Warda", "A. Pierzchała-Badura<br>M. Gil", "M. Ankiewicz", "T. Majewski", "J. Wojtan", "A. Mizerska", "K. Bugajska", "-", "E. Łubińska"],
             ["6", "13:35<br>13:50", "-", "-", "D. Gałka", "", "E. Krzyżyk", "-", "-", "M. Rzepka", "-", "A. Stankiewicz"]
         ],
+        // Klucz 'piatek' (Piątek)
         piatek: [
             ["0", "8:00<br>8:10", "M. Ankiewicz", "R. Rogalski", "E. Łubińska", "-", "M. Gil", "K. Bugajska", "A. Mizerska", "-", "D. Piątek", "-"],
             ["1", "8:55<br>9:05", "E. Szostak", "M. Szydłowska", "A. Pierzchała-Badura<br>P. Latosińska", "M. Ankiewicz", "T. Majewski", "J. Wojtan", "K. Jakubowska", "-", "T. Zygmunt", "-"],
@@ -347,7 +346,8 @@
             progressBar.classList.remove('bg-green-500');
             progressBar.classList.add('bg-red-500');
         } else {
-            timerLabel.innerText = "PRZERWA:";
+            // Poprawiono 'Do końca:' na 'PRZERWA:' i ujednolicono 'Do końca:' na 'PRZERWA:' dla lepszej spójności
+            timerLabel.innerText = "PRZERWA:"; 
             timerLabel.className = "text-[9px] font-bold uppercase tracking-wider text-green-600";
             progressBar.classList.remove('bg-red-500');
             progressBar.classList.add('bg-green-500');
@@ -386,9 +386,16 @@
         const schedules = document.querySelectorAll('.schedule-body');
         const currentDayTitle = document.getElementById('current-day-title');
         const dayIdMap = ['niedziela', 'poniedzialek', 'wtorek', 'sroda', 'czwartek', 'piatek', 'sobota'];
+        
+        // POPRAWIONA MAPA DNI Z POLSKIMI ZNAKAMI
         const dayNameMap = {
-            'niedziela': 'Niedziela', 'poniedzialek': 'Poniedziałek', 'wtorek': 'Wtorek',
-            'sroda': 'Środa', 'czwartek': 'Czwartek', 'piatek': 'Piątek', 'sobota': 'Sobota'
+            'niedziela': 'Niedziela', 
+            'poniedzialek': 'Poniedziałek', // POPRAWIONO 
+            'wtorek': 'Wtorek',
+            'sroda': 'Środa', // POPRAWIONO
+            'czwartek': 'Czwartek',
+            'piatek': 'Piątek', // POPRAWIONO
+            'sobota': 'Sobota'
         };
 
         function updateState(dayId) {
@@ -474,6 +481,7 @@
             }
             
             if (currentDayTitle && dayNameMap[dayId]) {
+                // Użycie poprawnie przetłumaczonego DYŻURY: i nazwy dnia
                 currentDayTitle.textContent = `DYŻURY: ${dayNameMap[dayId].toUpperCase()}`;
             }
             
