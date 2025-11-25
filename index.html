@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Plan Dyżurów - Świąteczna Edycja</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Mountains+of+Christmas:wght@400;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"> 
     <style>
         /* --- ŚWIĄTECZNY KLIMAT --- */
         
@@ -142,9 +142,9 @@
         .hour-column { width: 35px; font-size: 8px !important; background-color: #374151; color: #e5e7eb; }
         .obiad-column { width: 45px; }
         
-        /* Tytuł dnia - Czcionka świąteczna */
+        /* Tytuł dnia - Zmienione na bezpieczną czcionkę systemową, aby uniknąć problemów z polskimi znakami */
         #current-day-title { 
-            font-family: 'Mountains of Christmas', cursive; 
+            font-family: Impact, "Arial Black", sans-serif; /* Bardzo czytelna, pogrubiona czcionka systemowa */
             font-size: 22px; 
             font-weight: 700;
             color: #b91c1c; /* Ciemna czerwień */
@@ -182,7 +182,7 @@
                 <div class="flex items-center gap-2 z-10">
                     <span class="text-2xl">🎄</span>
                     <div id="current-day-title" class="uppercase tracking-wide whitespace-nowrap pt-1">
-                        Wczytywanie...
+                        Ładowanie...
                     </div>
                 </div>
 
@@ -233,10 +233,9 @@
 
 <script>
     // ============================================================
-    // DANE DYŻURÓW (Poprawiono polskie znaki w danych)
+    // DANE DYŻURÓW
     // ============================================================
     const bazaDyzurow = {
-        // Klucze pozostają bez polskich znaków, aby pasowały do ID w HTML i logicznych nazw dni
         poniedzialek: [
             ["0", "8:00<br>8:10", "E. Szostak", "M. Szydłowska", "A. Pierzchała-Badura", "-", "J. Szymkowicz", "I. Wilczyńska", "A. Mizerska", "-", "K. Czajęcka", "-"],
             ["1", "8:55<br>9:05", "K. Matysek-Sobolewska", "M. Szydłowska", "K. Miąsik<br>P. Latosińska", "M. Niedbał", "M. Gil", "M. Ankiewicz", "A. Mizerska", "-", "K. Czajęcka", "-"],
@@ -246,15 +245,13 @@
             ["5", "12:35<br>12:45", "-", "-", "A. Pierzchała-Badura<br>A. Lorenc", "A. Stankiewicz", "T. Majewski", "J. Wojtan", "K. Jakubowska", "K. Bugajska", "D. Piątek", "-"]
         ],
         wtorek: [
-            // Poprawiono: Miąsik, A. Szydłowska
-            ["0", "8:00<br>8:10", "W. Wrzaszcz", "J. Miecznik-Warda", "K. Miąsik", "-", "O. Ginalska", "K. Jochymek", "A. Lorenc", "-", "T. Zygmunt", "-"],
+            ["0", "8:00<br>8:10", "W. Wrzaszcz", "J. Miecznik-Warda", "K. Miąśik", "-", "O. Ginalska", "K. Jochymek", "A. Lorenc", "-", "T. Zygmunt", "-"],
             ["1", "8:55<br>9:05", "E. Szostak", "M. Szydłowska", "A. Szydłowska<br>I. Wilczyńska", "A. Misiołek", "M. Gil", "J. Wojtan", "K. Jakubowska", "-", "K. Matysek–Sobolewska", "-"],
-            ["2", "9:50<br>10:00", "W. Wrzaszcz", "K. Miąsik", "E. Łubińska<br>A. Lorenc", "M. Szeligiewicz", "T. Majewski", "K. Bugajska", "A. Mizerska", "-", "T. Zygmunt", "-"],
+            ["2", "9:50<br>10:00", "W. Wrzaszcz", "K. Miąśik", "E. Łubińska<br>A. Lorenc", "M. Szeligiewicz", "T. Majewski", "K. Bugajska", "A. Mizerska", "-", "T. Zygmunt", "-"],
             ["3", "10:45<br>10:55", "E. Szostak", "J. Miecznik-Warda", "A. Szydłowska<br>E. Łubińska", "A. Misiołek", "A. Stankiewicz", "K. Jochymek", "K. Jakubowska", "-", "K. Matysek–Sobolewska", "-"],
             ["4", "11:40<br>11:50", "K. Matysek-Sobolewska", "R. Ciszewska", "M. Niedbał<br>D. Kolany", "O. Ginalska", "E. Krzyżyk", "J. Wojtan", "M. Rzepka", "P. Latosińska", "D. Piątek", "-"],
             ["5", "12:35<br>12:45", "-", "-", "A. Pierzchała-Badura<br>R. Rogalski", "M. Szeligiewicz", "J. Szymkowicz", "K. Bugajska", "K. Jakubowska", "M. Ankiewicz", "D. Piątek", "-"]
         ],
-        // Klucz 'sroda' (środa)
         sroda: [
             ["0", "8:00<br>8:10", "K. Matysek-Sobolewska", "R. Ciszewska", "A. Szydłowska", "-", "J. Dominikowska", "J. Wojtan", "K. Jakubowska", "-", "K. Czajęcka", "-"],
             ["1", "8:55<br>9:05", "E. Szostak", "J. Miecznik-Warda", "E. Łubińska<br>A. Pierzchała-Badura", "A. Misiołek", "O. Ginalska", "I. Wilczyńska", "M. Rzepka", "-", "K. Czajęcka", "-"],
@@ -264,7 +261,6 @@
             ["5", "12:35<br>12:45", "-", "-", "A. Pierzchała-Badura<br>E. Łubińska", "M. Szeligiewicz", "D. Gałka", "K. Bugajska", "A. Mizerska", "A. Stankiewicz", "T. Zygmunt", "-"]
         ],
         czwartek: [
-            // Poprawiono: Miąsik
             ["0", "8:00<br>8:10", "K. Matysek-Sobolewska", "M. Niedbał", "A. Stankiewicz", "-", "T. Majewski", "I. Wilczyńska", "M. Rzepka", "-", "T. Zygmunt", "-"],
             ["1", "8:55<br>9:05", "K. Matysek-Sobolewska", "R. Ciszewska", "A. Pierzchała-Badura<br>D. Gałka", "O. Ginalska", "P. Latosińska", "J. Szymkowicz", "A. Solińska", "-", "D. Piątek", "-"],
             ["2", "9:50<br>10:00", "E. Szostak", "M. Szydłowska", "A. Szydłowska<br>M. Gil", "A. Stankiewicz", "K. Jakubowska", "K. Jochymek", "A. Mizerska", "-", "T. Zygmunt", "-"],
@@ -273,7 +269,6 @@
             ["5", "12:35<br>12:50", "R. Rogalski", "J. Miecznik-Warda", "A. Pierzchała-Badura<br>M. Gil", "M. Ankiewicz", "T. Majewski", "J. Wojtan", "A. Mizerska", "K. Bugajska", "-", "E. Łubińska"],
             ["6", "13:35<br>13:50", "-", "-", "D. Gałka", "", "E. Krzyżyk", "-", "-", "M. Rzepka", "-", "A. Stankiewicz"]
         ],
-        // Klucz 'piatek' (Piątek)
         piatek: [
             ["0", "8:00<br>8:10", "M. Ankiewicz", "R. Rogalski", "E. Łubińska", "-", "M. Gil", "K. Bugajska", "A. Mizerska", "-", "D. Piątek", "-"],
             ["1", "8:55<br>9:05", "E. Szostak", "M. Szydłowska", "A. Pierzchała-Badura<br>P. Latosińska", "M. Ankiewicz", "T. Majewski", "J. Wojtan", "K. Jakubowska", "-", "T. Zygmunt", "-"],
@@ -340,14 +335,14 @@
 
         timerContainer.classList.remove('hidden');
 
+        // Ustawienie etykiety i kolorów paska
         if (isLesson) {
-            timerLabel.innerText = "LEKCJA:";
+            timerLabel.innerText = "DO KOŃCA LEKCJI:";
             timerLabel.className = "text-[9px] font-bold uppercase tracking-wider text-red-600";
             progressBar.classList.remove('bg-green-500');
             progressBar.classList.add('bg-red-500');
         } else {
-            // Poprawiono 'Do końca:' na 'PRZERWA:' i ujednolicono 'Do końca:' na 'PRZERWA:' dla lepszej spójności
-            timerLabel.innerText = "PRZERWA:"; 
+            timerLabel.innerText = "DO KOŃCA PRZERWY:";
             timerLabel.className = "text-[9px] font-bold uppercase tracking-wider text-green-600";
             progressBar.classList.remove('bg-red-500');
             progressBar.classList.add('bg-green-500');
@@ -386,19 +381,13 @@
         const schedules = document.querySelectorAll('.schedule-body');
         const currentDayTitle = document.getElementById('current-day-title');
         const dayIdMap = ['niedziela', 'poniedzialek', 'wtorek', 'sroda', 'czwartek', 'piatek', 'sobota'];
-        
-        // POPRAWIONA MAPA DNI Z POLSKIMI ZNAKAMI
         const dayNameMap = {
-            'niedziela': 'Niedziela', 
-            'poniedzialek': 'Poniedziałek', // POPRAWIONO 
-            'wtorek': 'Wtorek',
-            'sroda': 'Środa', // POPRAWIONO
-            'czwartek': 'Czwartek',
-            'piatek': 'Piątek', // POPRAWIONO
-            'sobota': 'Sobota'
+            'niedziela': 'Niedziela', 'poniedzialek': 'Poniedziałek', 'wtorek': 'Wtorek',
+            'sroda': 'Środa', 'czwartek': 'Czwartek', 'piatek': 'Piątek', 'sobota': 'Sobota'
         };
 
         function updateState(dayId) {
+            // 1. Resetowanie wszystkich klas
             document.querySelectorAll('.schedule-body tr').forEach(row => {
                 row.classList.remove('highlight-row');
                 row.classList.remove('lesson-separator');
@@ -415,11 +404,37 @@
             const currentTimeInMinutes = now.getHours() * 60 + now.getMinutes();
             
             let activeFound = false;
-            let nextBreakRow = null;
-            let previousBreakEnd = null;
-            let previousRow = null;
+            let previousBreakEnd = null; // Czas zakończenia POPRZEDNIEJ przerwy (lub 8:00)
+            let previousRow = null; // Poprzedni Wiersz Przerwy
 
-            for (const row of rows) {
+            // Ustalenie godziny rozpoczęcia pierwszej lekcji/przerwy
+            const firstTimeCell = rows[0].cells[1];
+            let firstBreakStart = 8 * 60; // Domyślne 8:00
+            if (firstTimeCell) {
+                const firstTimeMatchStart = firstTimeCell.innerHTML.split('<br>')[0].match(/(\d{1,2}):(\d{2})/);
+                if (firstTimeMatchStart) {
+                    firstBreakStart = parseInt(firstTimeMatchStart[1], 10) * 60 + parseInt(firstTimeMatchStart[2], 10);
+                }
+            }
+            
+            // --- Logika dla pierwszej Lekcji (przed 1. przerwą) ---
+            if (currentTimeInMinutes < firstBreakStart) {
+                 // Załóżmy, że lekcja zaczęła się o 8:00 (lub wcześniej, jeśli jest)
+                const lessonStart = 8 * 60;
+                
+                // Ustaw timer jako "DO KOŃCA LEKCJI" (od 8:00 do 1. przerwy)
+                updateTimer(lessonStart, firstBreakStart, true);
+                
+                // Podświetl pierwszy wiersz (który jest pierwszą przerwą) jako następny
+                rows[0].classList.add('highlight-row');
+                rows[0].scrollIntoView({ behavior: 'smooth', block: 'center' });
+                activeFound = true;
+                return;
+            }
+
+
+            for (let i = 0; i < rows.length; i++) {
+                const row = rows[i];
                 const timeCell = row.cells[1]; 
                 if (!timeCell) continue;
                 
@@ -439,40 +454,51 @@
                     const startTimeInMinutes = startHour * 60 + startMinute;
                     const endTimeInMinutes = endHour * 60 + endMinute;
                     
+                    // --- 1. SPRAWDŹ, CZY TO OBECNA PRZERWA ---
                     if (currentTimeInMinutes >= startTimeInMinutes && currentTimeInMinutes < endTimeInMinutes) {
                         row.classList.add('highlight-row');
-                        updateTimer(startTimeInMinutes, endTimeInMinutes, false);
+                        updateTimer(startTimeInMinutes, endTimeInMinutes, false); // false = PRZERWA
                         activeFound = true;
                         row.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                        return;
-                    }
-
-                    if (previousBreakEnd !== null) {
-                        if (currentTimeInMinutes >= previousBreakEnd && currentTimeInMinutes < startTimeInMinutes) {
-                            if (previousRow) previousRow.classList.add('lesson-separator');
-                            updateTimer(previousBreakEnd, startTimeInMinutes, true);
-                            activeFound = true;
-                            if(previousRow) previousRow.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                            return;
-                        }
+                        return; // KONIEC
                     }
                     
-                    if (nextBreakRow === null && currentTimeInMinutes < startTimeInMinutes) {
-                        nextBreakRow = row;
+                    // --- 2. SPRAWDŹ, CZY TO OBECNA LEKCJA ---
+                    // Lekcja jest między końcem poprzedniej przerwy a początkiem obecnej
+                    if (previousBreakEnd !== null) {
+                        if (currentTimeInMinutes >= previousBreakEnd && currentTimeInMinutes < startTimeInMinutes) {
+                            
+                            // Aktywny jest czas lekcji, podświetlamy POPRZEDNI WERS (lesson-separator)
+                            if (previousRow) previousRow.classList.add('lesson-separator');
+                            
+                            updateTimer(previousBreakEnd, startTimeInMinutes, true); // true = LEKCJA
+                            activeFound = true;
+                            
+                            // Scroll do poprzedniego wiersza, bo tam jest marker
+                            if(previousRow) previousRow.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                            return; // KONIEC
+                        }
                     }
 
+                    // Uaktualnienie poprzednich wartości na koniec pętli:
                     previousBreakEnd = endTimeInMinutes;
                     previousRow = row;
                 }
             }
 
+            // --- 3. COŚ PO OSTATNIEJ PRZERWIE / KONIEC DNIA ---
             if (!activeFound) {
                 document.getElementById('timer-container').classList.add('hidden');
-                if (nextBreakRow) nextBreakRow.classList.add('highlight-row'); 
+                // Jeśli czas jest po ostatniej przerwie, nic nie podświetlamy i ukrywamy timer.
             }
         }
 
         function showScheduleForDay(dayId) {
+            // Upewnij się, że dzień jest dniem roboczym
+            if (!bazaDyzurow[dayId]) {
+                 dayId = 'poniedzialek';
+            }
+
             schedules.forEach(tbody => tbody.classList.add('hidden'));
             const activeTbody = document.getElementById(`tbody-${dayId}`);
             
@@ -481,7 +507,7 @@
             }
             
             if (currentDayTitle && dayNameMap[dayId]) {
-                // Użycie poprawnie przetłumaczonego DYŻURY: i nazwy dnia
+                // Używamy toUpperCase() i polskiej mapy nazw dni
                 currentDayTitle.textContent = `DYŻURY: ${dayNameMap[dayId].toUpperCase()}`;
             }
             
@@ -493,6 +519,7 @@
         
         showScheduleForDay(defaultDayId);
 
+        // Ustawienie interwału odświeżania na co sekundę
         setInterval(() => {
             const now = new Date();
             const currentDayIndex = now.getDay();
@@ -501,9 +528,11 @@
             const activeTbody = document.querySelector('.schedule-body:not(.hidden)');
             const activeId = activeTbody ? activeTbody.id.replace('tbody-', '') : null;
             
+            // Jeśli zmienił się dzień, przełącz widok
             if (currentDayId !== activeId) {
                 showScheduleForDay(currentDayId);
             } else {
+                // W przeciwnym razie, tylko aktualizuj stan
                 updateState(currentDayId);
             }
         }, 1000);
