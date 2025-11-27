@@ -39,24 +39,6 @@
             border-radius: 12px;
         }
 
-        /* Dekoracja - Śnieg (CSS only) */
-        .snowflake {
-            position: absolute;
-            top: -10px;
-            color: #dbeafe;
-            font-size: 1em;
-            font-family: Arial, sans-serif;
-            text-shadow: 0 0 5px #000;
-            user-select: none;
-            z-index: 50;
-            pointer-events: none;
-            animation: fall linear infinite;
-        }
-        @keyframes fall {
-            0% { transform: translateY(-10vh) translateX(0); opacity: 1; }
-            100% { transform: translateY(520px) translateX(20px); opacity: 0.3; }
-        }
-
         /* Obszar roboczy */
         #content-area {
             width: 100%;
@@ -65,7 +47,7 @@
             padding: 6px;
             display: flex;
             flex-direction: column;
-            z-index: 10; /* Powyżej śniegu */
+            z-index: 10;
         }
 
         /* Margines bezpieczeństwa */
@@ -142,7 +124,7 @@
         .hour-column { width: 35px; font-size: 8px !important; background-color: #374151; color: #e5e7eb; }
         .obiad-column { width: 45px; }
         
-        /* Tytuł dnia - Zmienione na bezpieczną czcionkę systemową, aby uniknąć problemów z polskimi znakami */
+        /* Tytuł dnia */
         #current-day-title { 
             font-family: Impact, "Arial Black", sans-serif; /* Bardzo czytelna, pogrubiona czcionka systemowa */
             font-size: 22px; 
@@ -167,8 +149,6 @@
     </style>
 </head>
 <body>
-
-    <div id="snow-container"></div>
 
     <div id="device-screen">
         
@@ -281,22 +261,6 @@
         ]
     };
 
-    // Generowanie śniegu
-    function createSnowflakes() {
-        const container = document.getElementById('snow-container');
-        const count = 30;
-        for(let i=0; i<count; i++) {
-            const flake = document.createElement('div');
-            flake.className = 'snowflake';
-            flake.innerHTML = '❄';
-            flake.style.left = Math.random() * 100 + 'vw';
-            flake.style.animationDuration = (Math.random() * 3 + 2) + 's';
-            flake.style.opacity = Math.random();
-            flake.style.fontSize = (Math.random() * 10 + 10) + 'px';
-            container.appendChild(flake);
-        }
-    }
-
     // Funkcja budująca HTML tabeli
     function generujTabele() {
         for (const [dzien, wiersze] of Object.entries(bazaDyzurow)) {
@@ -376,7 +340,6 @@
 
     document.addEventListener('DOMContentLoaded', function() {
         generujTabele(); 
-        createSnowflakes();
 
         const schedules = document.querySelectorAll('.schedule-body');
         const currentDayTitle = document.getElementById('current-day-title');
