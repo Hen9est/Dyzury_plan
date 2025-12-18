@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Plan Dyżurów - Świąteczna Edycja</title>
+    <title>Plan Dyżurów - Świąteczna Edycja (Edytowalny)</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"> 
     <style>
@@ -146,6 +146,18 @@
         #progress-bar {
             transition: width 1s linear, background-color 0.5s ease;
         }
+
+        /* Styl dla modala edycji */
+        #edit-modal {
+            backdrop-filter: blur(5px);
+        }
+        .edit-input {
+            width: 100%;
+            border: 1px solid #ccc;
+            padding: 2px;
+            font-size: 10px;
+            border-radius: 3px;
+        }
     </style>
 </head>
 <body>
@@ -166,14 +178,21 @@
                     </div>
                 </div>
 
-                <div id="timer-container" class="flex items-center gap-3 flex-grow justify-end hidden z-10">
-                    <div class="flex flex-col items-end leading-none">
-                        <span id="timer-label" class="text-[9px] font-bold uppercase tracking-wider text-green-700">Do końca:</span>
-                        <span id="timer-countdown" class="text-lg font-mono font-bold text-gray-800">00:00</span>
-                    </div>
-                    
-                    <div class="w-28 bg-gray-200 rounded-full h-3 overflow-hidden border border-gray-300 shadow-inner">
-                        <div id="progress-bar" class="h-full rounded-full candy-stripe" style="width: 0%"></div>
+                <div class="flex items-center gap-2 z-10">
+                    <!-- Przycisk Edycji -->
+                    <button onclick="toggleEditModal()" class="p-1.5 rounded-full hover:bg-gray-100 text-gray-500 transition-colors" title="Edytuj Plan">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+                    </button>
+
+                    <div id="timer-container" class="flex items-center gap-3 justify-end hidden">
+                        <div class="flex flex-col items-end leading-none">
+                            <span id="timer-label" class="text-[9px] font-bold uppercase tracking-wider text-green-700">Do końca:</span>
+                            <span id="timer-countdown" class="text-lg font-mono font-bold text-gray-800">00:00</span>
+                        </div>
+                        
+                        <div class="w-28 bg-gray-200 rounded-full h-3 overflow-hidden border border-gray-300 shadow-inner">
+                            <div id="progress-bar" class="h-full rounded-full candy-stripe" style="width: 0%"></div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -211,11 +230,70 @@
         <div id="safe-margin"></div>
     </div>
 
+    <!-- MODAL EDYCJI -->
+    <div id="edit-modal" class="fixed inset-0 bg-black/50 z-50 hidden flex items-center justify-center">
+        <div class="bg-white rounded-xl shadow-2xl p-4 w-[95%] max-w-4xl max-h-[90vh] flex flex-col overflow-hidden border-4 border-red-600">
+            <div class="flex justify-between items-center mb-4 border-b pb-2">
+                <h2 class="text-xl font-bold text-red-700">Edytor Dyżurów</h2>
+                <button onclick="toggleEditModal()" class="text-gray-500 hover:text-red-600 text-2xl font-bold">&times;</button>
+            </div>
+
+            <div class="mb-4 flex gap-4">
+                <select id="edit-day-select" class="border p-2 rounded shadow-sm flex-grow bg-gray-50" onchange="renderEditTable()">
+                    <option value="poniedzialek">Poniedziałek</option>
+                    <option value="wtorek">Wtorek</option>
+                    <option value="sroda">Środa</option>
+                    <option value="czwartek">Czwartek</option>
+                    <option value="piatek">Piątek</option>
+                </select>
+            </div>
+
+            <div class="overflow-auto flex-grow border rounded bg-gray-50 p-2">
+                <table class="w-full compact-table">
+                    <thead class="bg-gray-800 text-white">
+                        <tr>
+                            <th>Nr</th>
+                            <th>Czas</th>
+                            <th>Zielony</th>
+                            <th>Fiolet</th>
+                            <th>Poma.</th>
+                            <th>Undrg.</th>
+                            <th>Żółty</th>
+                            <th>Czerw.</th>
+                            <th>Nieb.</th>
+                            <th>Parter</th>
+                            <th>SG</th>
+                            <th>Obiad</th>
+                        </tr>
+                    </thead>
+                    <tbody id="edit-tbody">
+                        <!-- Tu generowane są pola edycji -->
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="mt-4 flex justify-between items-center border-t pt-2 gap-2">
+                <button onclick="exportData()" class="text-xs text-blue-600 underline hover:text-blue-800">Eksportuj kod (dla informatyka)</button>
+                <div class="flex gap-2">
+                    <button onclick="resetToDefaults()" class="bg-gray-200 px-4 py-2 rounded hover:bg-gray-300 text-gray-700 text-sm">Przywróć domyślne</button>
+                    <button onclick="saveChanges()" class="bg-green-600 px-6 py-2 rounded text-white font-bold hover:bg-green-700 shadow-lg animate-pulse">ZAPISZ ZMIANY</button>
+                </div>
+            </div>
+            
+            <!-- Hidden text area for export -->
+            <div id="export-area" class="hidden mt-2 p-2 bg-gray-100 border rounded">
+                <p class="text-xs text-red-600 font-bold mb-1">Skopiuj poniższy kod i podmień zmienną 'bazaDyzurow' w pliku HTML:</p>
+                <textarea id="export-textarea" class="w-full h-24 text-[10px] font-mono border p-1"></textarea>
+                <button onclick="document.getElementById('export-area').classList.add('hidden')" class="text-xs text-gray-500 mt-1">Zamknij</button>
+            </div>
+        </div>
+    </div>
+
 <script>
     // ============================================================
-    // DANE DYŻURÓW
+    // DANE DYŻURÓW (Domyślne)
     // ============================================================
-    const bazaDyzurow = {
+    const domyslnaBazaDyzurow = {
         poniedzialek: [
             ["0", "8:00<br>8:10", "E. Szostak", "M. Szydłowska", "A. Pierzchała-Badura", "-", "J. Szymkowicz", "I. Wilczyńska", "A. Mizerska", "-", "K. Czajęcka", "-"],
             ["1", "8:55<br>9:05", "K. Matysek-Sobolewska", "M. Szydłowska", "K. Miąsik<br>P. Latosińska", "M. Niedbał", "M. Gil", "M. Ankiewicz", "A. Mizerska", "-", "K. Czajęcka", "-"],
@@ -261,6 +339,23 @@
         ]
     };
 
+    // Zmienna operacyjna - ładowana z localStorage lub domyślna
+    let bazaDyzurow = JSON.parse(JSON.stringify(domyslnaBazaDyzurow));
+
+    // Funkcja ładująca dane przy starcie
+    function loadData() {
+        const savedData = localStorage.getItem('planDyzurowData_v1');
+        if (savedData) {
+            try {
+                bazaDyzurow = JSON.parse(savedData);
+                console.log("Załadowano dane z pamięci lokalnej.");
+            } catch (e) {
+                console.error("Błąd odczytu danych", e);
+                bazaDyzurow = JSON.parse(JSON.stringify(domyslnaBazaDyzurow));
+            }
+        }
+    }
+
     // Funkcja budująca HTML tabeli
     function generujTabele() {
         for (const [dzien, wiersze] of Object.entries(bazaDyzurow)) {
@@ -289,6 +384,102 @@
             });
         }
     }
+
+    // ============================================================
+    // LOGIKA EDYCJI
+    // ============================================================
+    
+    function toggleEditModal() {
+        const modal = document.getElementById('edit-modal');
+        const isHidden = modal.classList.contains('hidden');
+        
+        if (isHidden) {
+            modal.classList.remove('hidden');
+            renderEditTable();
+        } else {
+            modal.classList.add('hidden');
+            document.getElementById('export-area').classList.add('hidden');
+        }
+    }
+
+    function renderEditTable() {
+        const daySelect = document.getElementById('edit-day-select');
+        const selectedDay = daySelect.value;
+        const tbody = document.getElementById('edit-tbody');
+        tbody.innerHTML = '';
+
+        if (!bazaDyzurow[selectedDay]) return;
+
+        bazaDyzurow[selectedDay].forEach((row, rowIndex) => {
+            const tr = document.createElement('tr');
+            
+            row.forEach((cellData, colIndex) => {
+                const td = document.createElement('td');
+                // Jeśli to kolumna numeru lub czasu, dajemy read-only lub mały input
+                if (colIndex === 0 || colIndex === 1) {
+                    td.innerHTML = `<span class="text-gray-500 font-bold">${cellData}</span>`;
+                    td.className = "bg-gray-100";
+                } else {
+                    // Input dla nauczycieli
+                    const input = document.createElement('input');
+                    input.type = 'text';
+                    input.value = cellData.replace(/<br>/g, " "); // W inpucie pokazujemy spacje zamiast <br>
+                    input.className = "edit-input focus:bg-yellow-50 focus:border-yellow-400";
+                    
+                    // Zdarzenie zmiany - aktualizacja w pamięci tymczasowej (przed zapisem)
+                    input.onchange = (e) => {
+                        // Przywracamy <br> jeśli ktoś chce, ale prościej zachować jak tekst.
+                        // Tutaj prosta logika: wpisany tekst trafia do tablicy.
+                        bazaDyzurow[selectedDay][rowIndex][colIndex] = e.target.value;
+                    };
+                    td.appendChild(input);
+                }
+                tr.appendChild(td);
+            });
+            tbody.appendChild(tr);
+        });
+    }
+
+    function saveChanges() {
+        // Zapisz do LocalStorage
+        localStorage.setItem('planDyzurowData_v1', JSON.stringify(bazaDyzurow));
+        
+        // Odśwież widok główny
+        generujTabele();
+        
+        // Ukryj modal
+        toggleEditModal();
+        
+        // Pokaż alert (opcjonalne, ale miłe)
+        // alert("Zmiany zostały zapisane w tej przeglądarce!");
+    }
+
+    function resetToDefaults() {
+        if(confirm("Czy na pewno chcesz przywrócić oryginalny plan? Twoje zmiany zostaną utracone.")) {
+            bazaDyzurow = JSON.parse(JSON.stringify(domyslnaBazaDyzurow));
+            localStorage.removeItem('planDyzurowData_v1');
+            generujTabele();
+            renderEditTable();
+        }
+    }
+
+    function exportData() {
+        const exportArea = document.getElementById('export-area');
+        const textarea = document.getElementById('export-textarea');
+        
+        exportArea.classList.remove('hidden');
+        
+        const jsonString = JSON.stringify(bazaDyzurow, null, 4);
+        const codeString = `const bazaDyzurow = ${jsonString};`;
+        
+        textarea.value = codeString;
+        textarea.select();
+    }
+
+
+    // ============================================================
+    // LOGIKA CZASU (Bez zmian)
+    // ============================================================
 
     // Funkcja aktualizująca pasek postępu i licznik
     function updateTimer(startTimeInMinutes, endTimeInMinutes, isLesson) {
@@ -339,6 +530,7 @@
     }
 
     document.addEventListener('DOMContentLoaded', function() {
+        loadData(); // Ładowanie zapisanych danych
         generujTabele(); 
 
         const schedules = document.querySelectorAll('.schedule-body');
@@ -371,7 +563,7 @@
             let previousRow = null; // Poprzedni Wiersz Przerwy
 
             // Ustalenie godziny rozpoczęcia pierwszej lekcji/przerwy
-            const firstTimeCell = rows[0].cells[1];
+            const firstTimeCell = rows[0]?.cells[1];
             let firstBreakStart = 8 * 60; // Domyślne 8:00
             if (firstTimeCell) {
                 const firstTimeMatchStart = firstTimeCell.innerHTML.split('<br>')[0].match(/(\d{1,2}):(\d{2})/);
@@ -381,7 +573,7 @@
             }
             
             // --- Logika dla pierwszej Lekcji (przed 1. przerwą) ---
-            if (currentTimeInMinutes < firstBreakStart) {
+            if (currentTimeInMinutes < firstBreakStart && rows.length > 0) {
                  // Załóżmy, że lekcja zaczęła się o 8:00 (lub wcześniej, jeśli jest)
                 const lessonStart = 8 * 60;
                 
@@ -491,7 +683,7 @@
             const activeTbody = document.querySelector('.schedule-body:not(.hidden)');
             const activeId = activeTbody ? activeTbody.id.replace('tbody-', '') : null;
             
-            // Jeśli zmienił się dzień, przełącz widok
+            // Jeśli zmienił się dzień (np. po północy), przełącz widok
             if (currentDayId !== activeId) {
                 showScheduleForDay(currentDayId);
             } else {
