@@ -7,12 +7,9 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"> 
     <style>
-        :root {
-            --christmas-red: #dc2626;
-            --christmas-green: #14532d;
-            --cream: #fffaf0;
-        }
-
+        /* --- ŚWIĄTECZNY KLIMAT --- */
+        
+        /* Tło poza ekranem - Ciemna zieleń choinkowa */
         body { 
             font-family: 'Inter', sans-serif; 
             background-color: #0f2b1d; 
@@ -23,56 +20,116 @@
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            padding: 10px;
+            padding: 20px;
+            overflow: auto;
         }
 
+        /* Symulacja ekranu - Świąteczna Kartka */
         #device-screen {
-            width: 100%;
-            max-width: 800px;
-            background-color: var(--cream);
+            width: 640px;
+            height: 500px;
+            background-color: #fffaf0; /* Ciepły kremowy */
             position: relative;
             display: flex;
             flex-direction: column;
             overflow: hidden;
-            box-shadow: 0 0 40px rgba(220, 38, 38, 0.3);
-            border: 6px solid #b91c1c;
-            border-radius: 16px;
+            box-shadow: 0 0 40px rgba(220, 38, 38, 0.3); /* Czerwona poświata */
+            flex-shrink: 0;
+            border: 8px solid #b91c1c; /* Czerwona ramka */
+            border-radius: 12px;
         }
 
-        /* Nagłówki kolorystyczne */
-        .header-green { background-color: #15803d; color: white; }
+        /* Obszar roboczy */
+        #content-area {
+            width: 100%;
+            height: 470px; 
+            overflow: hidden; 
+            padding: 6px;
+            display: flex;
+            flex-direction: column;
+            z-index: 10;
+        }
+
+        /* Margines bezpieczeństwa */
+        #safe-margin {
+            height: 30px;
+            width: 100%;
+            background: repeating-linear-gradient(
+                45deg,
+                #b91c1c,
+                #b91c1c 10px,
+                #fca5a5 10px,
+                #fca5a5 20px
+            ); /* Pasek na dole jak laska cukrowa */
+            opacity: 0.8;
+        }
+
+        /* Kolory nagłówków - Bardziej nasycone, świąteczne */
+        .header-green { background-color: #15803d; color: white; border-bottom: 2px solid #14532d; } /* Ciemna zieleń */
         .header-purple { background-color: #7e22ce; color: white; }
         .header-orange { background-color: #ea580c; color: white; }
-        .header-yellow { background-color: #fbbf24; color: #78350f; font-weight: bold; }
-        .header-red { background-color: #dc2626; color: white; }
+        .header-yellow { background-color: #fbbf24; color: #78350f; font-weight: bold; } /* Złoty */
+        .header-red { background-color: #dc2626; color: white; } /* Czerwień Mikołaja */
         .header-blue { background-color: #2563eb; color: white; }
         .header-gray { background-color: #4b5563; color: white; }
+        
+        /* Animacja pulsowania - Złota poświata */
+        @keyframes pulse-gold {
+            0%, 100% { background-color: #fef9c3; border-left-color: #ca8a04; box-shadow: inset 0 0 10px rgba(234, 179, 8, 0.2); }
+            50% { background-color: #fde047; border-left-color: #a16207; box-shadow: inset 0 0 15px rgba(234, 179, 8, 0.5); }
+        }
 
+        .highlight-row { 
+            animation: pulse-gold 3s infinite ease-in-out;
+            font-weight: 700;
+            border-left: 4px solid #ca8a04 !important; /* Złoty pasek */
+        }
+        .highlight-row td { color: #854d0e; }
+
+        /* Styl czerwonej linii podczas lekcji - Girlanda */
+        .lesson-separator td {
+            border-bottom: 3px dashed #dc2626 !important; 
+        }
+
+        td.empty-cell { text-align: center; color: #d1d5db; font-size: 8px; }
+        
         /* Tabela */
-        .compact-table { width: 100%; table-layout: fixed; border-collapse: collapse; }
+        .compact-table { table-layout: fixed; }
         .compact-table th, .compact-table td {
-            padding: 4px 2px;
-            font-size: 10px; 
+            padding: 1px 2px;
+            font-size: 9px; 
             line-height: 1.2;
             text-align: center;
+            white-space: normal;
             word-break: break-word;
             border-bottom: 1px solid #e5e7eb;
             border-right: 1px solid #f3f4f6; 
+            overflow: hidden;
+        }
+        
+        .compact-table tbody tr:nth-child(even) { background-color: #fff; }
+        .compact-table tbody tr:nth-child(odd) { background-color: #fafaf9; }
+
+        .compact-table thead th { 
+            font-size: 8px; 
+            text-align: center; 
+            border-bottom: 1px solid rgba(255,255,255,0.3); 
+            padding-top: 4px;
+            padding-bottom: 4px;
+            vertical-align: middle;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.2);
         }
 
-        /* Wiersz wyróżniony (obecna przerwa) */
-        @keyframes pulse-gold {
-            0%, 100% { background-color: #fef9c3; border-left: 4px solid #ca8a04; }
-            50% { background-color: #fde047; border-left: 4px solid #a16207; }
-        }
-        .highlight-row { 
-            animation: pulse-gold 2s infinite ease-in-out;
+        .nr-column { width: 18px; background-color: #374151; color: #e5e7eb; }
+        .hour-column { width: 35px; font-size: 8px !important; background-color: #374151; color: #e5e7eb; }
+        .obiad-column { width: 45px; }
+        
+        /* Tytuł dnia */
+        #current-day-title { 
+            font-family: Impact, "Arial Black", sans-serif; /* Bardzo czytelna, pogrubiona czcionka systemowa */
+            font-size: 22px; 
             font-weight: 700;
-        }
-
-        /* Marker lekcji */
-        .lesson-separator td {
-            border-bottom: 3px dashed #dc2626 !important; 
+            color: #b91c1c; /* Ciemna czerwień */
         }
 
         /* Pasek postępu - Candy Cane */
@@ -86,105 +143,75 @@
             to { background-position: 20px 20px; }
         }
 
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar { width: 6px; height: 6px; }
-        ::-webkit-scrollbar-track { background: #f1f1f1; }
-        ::-webkit-scrollbar-thumb { background: #b91c1c; border-radius: 10px; }
-
-        .hidden { display: none !important; }
+        #progress-bar {
+            transition: width 1s linear, background-color 0.5s ease;
+        }
     </style>
 </head>
 <body>
 
     <div id="device-screen">
-        <!-- Header -->
-        <header class="bg-white p-3 border-b-4 border-red-600 shadow-sm flex flex-col md:flex-row items-center justify-between gap-3">
-            <div class="flex items-center gap-2">
-                <span class="text-3xl">🎄</span>
-                <h1 id="current-day-title" class="text-xl font-black text-red-700 uppercase tracking-tighter">Plan Dyżurów</h1>
-            </div>
-
-            <div id="timer-ui" class="flex items-center gap-3 bg-red-50 p-2 rounded-lg border border-red-200 hidden">
-                <div class="text-right leading-none">
-                    <p id="timer-label" class="text-[10px] font-bold text-red-600 uppercase">Pozostało:</p>
-                    <p id="timer-countdown" class="text-xl font-mono font-black text-gray-800">00:00</p>
+        
+        <div id="content-area">
+            
+            <div class="flex items-center justify-between gap-2 mb-2 bg-white p-1 px-3 rounded-lg shadow-md border-2 border-red-100 min-h-[3rem] shrink-0 relative overflow-hidden">
+                <div class="absolute top-0 right-0 opacity-10 pointer-events-none">
+                    <svg width="60" height="60" viewBox="0 0 24 24" fill="currentColor" class="text-red-600"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>
                 </div>
-                <div class="w-24 bg-gray-200 rounded-full h-4 overflow-hidden border border-red-200">
-                    <div id="progress-bar" class="h-full candy-stripe bg-red-500" style="width: 0%"></div>
+
+                <div class="flex items-center gap-2 z-10">
+                    <span class="text-2xl">🎄</span>
+                    <div id="current-day-title" class="uppercase tracking-wide whitespace-nowrap pt-1">
+                        Ładowanie...
+                    </div>
+                </div>
+
+                <div id="timer-container" class="flex items-center gap-3 flex-grow justify-end hidden z-10">
+                    <div class="flex flex-col items-end leading-none">
+                        <span id="timer-label" class="text-[9px] font-bold uppercase tracking-wider text-green-700">Do końca:</span>
+                        <span id="timer-countdown" class="text-lg font-mono font-bold text-gray-800">00:00</span>
+                    </div>
+                    
+                    <div class="w-28 bg-gray-200 rounded-full h-3 overflow-hidden border border-gray-300 shadow-inner">
+                        <div id="progress-bar" class="h-full rounded-full candy-stripe" style="width: 0%"></div>
+                    </div>
                 </div>
             </div>
 
-            <button onclick="openModal()" class="bg-green-700 hover:bg-green-800 text-white p-2 rounded-full transition-transform active:scale-95 shadow-md">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
-            </button>
-        </header>
-
-        <!-- Main Content -->
-        <main class="flex-grow overflow-auto bg-white/50 backdrop-blur-sm p-1">
-            <table class="compact-table">
-                <thead class="sticky top-0 z-20 shadow-sm">
-                    <tr class="text-white uppercase text-[9px]">
-                        <th class="bg-gray-800 w-[25px]">Nr</th>
-                        <th class="bg-gray-800 w-[45px]">Czas</th>
-                        <th class="header-green">Ziel</th>
-                        <th class="header-purple">Fiol</th>
-                        <th class="header-orange">Pom</th>
-                        <th class="bg-gray-500">Undr</th>
-                        <th class="header-yellow">Żółt</th>
-                        <th class="header-red">Czerw</th>
-                        <th class="header-blue">Nieb</th>
-                        <th class="bg-gray-500">Part</th>
-                        <th class="bg-gray-500">SG</th>
-                        <th class="header-gray w-[50px]">Obiad</th>
-                    </tr>
-                </thead>
-                <tbody id="main-table-body">
-                    <!-- Dynamicznie generowane wiersze -->
-                </tbody>
-            </table>
-        </main>
-
-        <!-- Footer Decor -->
-        <footer class="h-6 w-full opacity-80" style="background: repeating-linear-gradient(45deg, #b91c1c, #b91c1c 10px, #fca5a5 10px, #fca5a5 20px);"></footer>
-    </div>
-
-    <!-- MODAL EDYTOR -->
-    <div id="edit-modal" class="fixed inset-0 bg-black/60 z-50 hidden flex items-center justify-center p-4">
-        <div class="bg-white rounded-2xl shadow-2xl w-full max-w-4xl max-h-[90vh] flex flex-col overflow-hidden border-4 border-red-600">
-            <div class="p-4 border-b flex justify-between items-center bg-red-50">
-                <h2 class="text-xl font-bold text-red-700 flex items-center gap-2">
-                    <span>🎅</span> Edytor Świątecznego Planu
-                </h2>
-                <button onclick="closeModal()" class="text-gray-400 hover:text-red-600 text-3xl">&times;</button>
-            </div>
-
-            <div class="p-4 flex gap-4 bg-white">
-                <select id="day-selector" onchange="renderEditor()" class="flex-grow p-2 border-2 border-green-200 rounded-lg focus:border-green-500 outline-none font-bold text-green-800">
-                    <option value="poniedzialek">Poniedziałek</option>
-                    <option value="wtorek">Wtorek</option>
-                    <option value="sroda">Środa</option>
-                    <option value="czwartek">Czwartek</option>
-                    <option value="piatek">Piątek</option>
-                </select>
-                <button onclick="resetData()" class="px-4 py-2 text-xs font-bold text-red-600 hover:bg-red-50 rounded-lg">Resetuj</button>
-            </div>
-
-            <div class="flex-grow overflow-auto p-2">
-                <table class="w-full text-[10px] border-collapse" id="editor-table">
-                    <!-- Pola edycji -->
-                </table>
-            </div>
-
-            <div class="p-4 border-t bg-gray-50 flex flex-col sm:flex-row justify-between items-center gap-3">
-                <button onclick="copyRawData()" class="text-blue-600 text-[10px] underline">Kopiuj kod JSON</button>
-                <button onclick="saveData()" class="w-full sm:w-auto bg-red-600 hover:bg-red-700 text-white font-black px-10 py-3 rounded-xl shadow-lg transform transition active:scale-95">
-                    ZAPISZ I ZAMKNIJ
-                </button>
-            </div>
+            <main class="bg-white/90 rounded-lg shadow-lg overflow-hidden border border-green-100 flex-grow relative backdrop-blur-sm">
+                <div class="h-full w-full overflow-auto">
+                    <table class="w-full text-gray-700 compact-table border-collapse">
+                        <thead class="text-white uppercase tracking-wider sticky top-0 z-10 shadow-sm">
+                            <tr>
+                                <th scope="col" class="nr-column rounded-tl-lg">Nr</th>
+                                <th scope="col" class="hour-column">Czas</th>
+                                <th scope="col" class="header-green">Zielony</th>
+                                <th scope="col" class="header-purple">Fiolet</th>
+                                <th scope="col" class="header-orange">Poma.</th>
+                                <th scope="col" class="bg-gray-500">Undrg.</th>
+                                <th scope="col" class="header-yellow">Żółty</th>
+                                <th scope="col" class="header-red">Czerw.</th>
+                                <th scope="col" class="header-blue">Nieb.</th>
+                                <th scope="col" class="bg-gray-500">Parter</th>
+                                <th scope="col" class="bg-gray-500">SG</th>
+                                <th scope="col" class="header-gray obiad-column rounded-tr-lg">Obiad</th>
+                            </tr>
+                        </thead>
+                        
+                        <tbody id="tbody-poniedzialek" class="schedule-body hidden"></tbody>
+                        <tbody id="tbody-wtorek" class="schedule-body hidden"></tbody>
+                        <tbody id="tbody-sroda" class="schedule-body hidden"></tbody>
+                        <tbody id="tbody-czwartek" class="schedule-body hidden"></tbody>
+                        <tbody id="tbody-piatek" class="schedule-body hidden"></tbody>
+                    </table>
+                </div>
+            </main>
         </div>
+
+        <div id="safe-margin"></div>
     </div>
 
-    <script>
+<script>
         const DEFAULT_DATA = {
             poniedzialek: [
                 ["0", "8:00-8:10", "E. Szostak", "M. Szydłowska", "A. Pierzchała-Badura", "-", "J. Szymkowicz", "I. Wilczyńska", "A. Mizerska", "-", "K. Czajęcka", "-"],
@@ -231,165 +258,247 @@
             ]
         };
 
-        let currentData = JSON.parse(localStorage.getItem('duty_schedule_radek')) || JSON.parse(JSON.stringify(DEFAULT_DATA));
-        const dayMap = { 1: 'poniedzialek', 2: 'wtorek', 3: 'sroda', 4: 'czwartek', 5: 'piatek', 6: 'poniedzialek', 0: 'poniedzialek' };
-        const dayNames = { poniedzialek: 'Poniedziałek', wtorek: 'Wtorek', sroda: 'Środa', czwartek: 'Czwartek', piatek: 'Piątek' };
-
-        function getMinutes(timeStr) {
-            const [h, m] = timeStr.split(':').map(Number);
-            return h * 60 + m;
-        }
-
-        function refreshMainTable() {
-            const now = new Date();
-            const dayIdx = now.getDay();
-            const dayKey = dayMap[dayIdx];
-            const currentTotalMinutes = now.getHours() * 60 + now.getMinutes();
-            const seconds = now.getSeconds();
-
-            const tbody = document.getElementById('main-table-body');
-            const title = document.getElementById('current-day-title');
-            const timerUi = document.getElementById('timer-ui');
-
-            title.innerText = `DYŻURY: ${dayNames[dayKey].toUpperCase()}`;
-            tbody.innerHTML = '';
-
-            let data = currentData[dayKey] || [];
-            let activeBreakIdx = -1;
-            let activeLessonIdx = -1;
-
-            // Logika wykrywania czasu
-            data.forEach((row, idx) => {
-                const times = row[1].split('-');
-                if(times.length < 2) return;
-                const start = getMinutes(times[0]);
-                const end = getMinutes(times[1]);
-
-                if (currentTotalMinutes >= start && currentTotalMinutes < end) {
-                    activeBreakIdx = idx;
-                }
-
-                if (idx > 0) {
-                    const prevEnd = getMinutes(data[idx-1][1].split('-')[1]);
-                    if (currentTotalMinutes >= prevEnd && currentTotalMinutes < start) {
-                        activeLessonIdx = idx - 1;
-                    }
-                }
-            });
-
-            // Renderowanie tabeli
-            data.forEach((rowData, idx) => {
+    // Funkcja budująca HTML tabeli
+    function generujTabele() {
+        // POPRAWKA: Używamy DEFAULT_DATA zamiast bazaDyzurow
+        for (const [dzien, wiersze] of Object.entries(DEFAULT_DATA)) {
+            const tbody = document.getElementById(`tbody-${dzien}`);
+            if (!tbody) continue;
+            
+            tbody.innerHTML = ''; 
+            
+            wiersze.forEach(daneWiersza => {
                 const tr = document.createElement('tr');
-                if (idx === activeBreakIdx) tr.className = 'highlight-row';
-                if (idx === activeLessonIdx) tr.className = 'lesson-separator';
-
-                rowData.forEach((cell, cIdx) => {
+                
+                daneWiersza.forEach((tresc, index) => {
                     const td = document.createElement('td');
-                    td.innerText = (cell === '-' || !cell) ? '' : cell;
-                    if (cIdx === 1) td.style.fontSize = '9px';
-                    if (cIdx === 0 || cIdx === 1) td.className += ' font-bold bg-gray-50';
+                    
+                    if (index === 0) td.className = "font-bold text-gray-500"; 
+                    if (index === 1) td.className = "font-medium"; 
+                    
+                    if (tresc === "-" || tresc.trim() === "") {
+                        td.className += " empty-cell";
+                    }
+                    
+                    td.innerHTML = tresc;
                     tr.appendChild(td);
                 });
                 tbody.appendChild(tr);
             });
+        }
+    }
 
-            // Update Timera
-            if (activeBreakIdx !== -1) {
-                timerUi.classList.remove('hidden');
-                const [sStr, eStr] = data[activeBreakIdx][1].split('-');
-                updateTimerUI(getMinutes(sStr), getMinutes(eStr), currentTotalMinutes, seconds, false);
-            } else if (activeLessonIdx !== -1 && data[activeLessonIdx+1]) {
-                timerUi.classList.remove('hidden');
-                const prevEnd = getMinutes(data[activeLessonIdx][1].split('-')[1]);
-                const nextStart = getMinutes(data[activeLessonIdx+1][1].split('-')[0]);
-                updateTimerUI(prevEnd, nextStart, currentTotalMinutes, seconds, true);
-            } else {
-                timerUi.classList.add('hidden');
-            }
+    // Funkcja aktualizująca pasek postępu i licznik
+    function updateTimer(startTimeInMinutes, endTimeInMinutes, isLesson) {
+        const timerContainer = document.getElementById('timer-container');
+        const progressBar = document.getElementById('progress-bar');
+        const countdownText = document.getElementById('timer-countdown');
+        const timerLabel = document.getElementById('timer-label');
+
+        timerContainer.classList.remove('hidden');
+
+        // Ustawienie etykiety i kolorów paska
+        if (isLesson) {
+            timerLabel.innerText = "DO KOŃCA LEKCJI:";
+            timerLabel.className = "text-[9px] font-bold uppercase tracking-wider text-red-600";
+            progressBar.classList.remove('bg-green-500');
+            progressBar.classList.add('bg-red-500');
+        } else {
+            timerLabel.innerText = "DO KOŃCA PRZERWY:";
+            timerLabel.className = "text-[9px] font-bold uppercase tracking-wider text-green-600";
+            progressBar.classList.remove('bg-red-500');
+            progressBar.classList.add('bg-green-500');
         }
 
-        function updateTimerUI(start, end, nowM, nowS, isLesson) {
-            const progressBar = document.getElementById('progress-bar');
-            const countdown = document.getElementById('timer-countdown');
-            const label = document.getElementById('timer-label');
+        const now = new Date();
+        const currentMinutes = now.getHours() * 60 + now.getMinutes();
+        const currentSeconds = now.getSeconds();
+        
+        const startTotalSeconds = startTimeInMinutes * 60;
+        const endTotalSeconds = endTimeInMinutes * 60;
+        const currentTotalSeconds = currentMinutes * 60 + currentSeconds;
+        
+        const totalDurationSeconds = endTotalSeconds - startTotalSeconds;
+        const elapsedSeconds = currentTotalSeconds - startTotalSeconds;
+        const remainingSeconds = endTotalSeconds - currentTotalSeconds;
 
-            const totalSec = (end - start) * 60;
-            const elapsedSec = (nowM - start) * 60 + nowS;
-            const remainSec = totalSec - elapsedSec;
-
-            const progress = (elapsedSec / totalSec) * 100;
-            progressBar.style.width = `${Math.min(100, progress)}%`;
-            
-            label.innerText = isLesson ? "DO KOŃCA LEKCJI:" : "DO KOŃCA PRZERWY:";
-            label.className = isLesson ? "text-[10px] font-bold text-red-600 uppercase" : "text-[10px] font-bold text-green-600 uppercase";
-            progressBar.className = `h-full candy-stripe ${isLesson ? 'bg-red-500' : 'bg-green-500'}`;
-
-            const m = Math.floor(Math.max(0, remainSec) / 60);
-            const s = Math.max(0, remainSec % 60);
-            countdown.innerText = `${m}:${s < 10 ? '0' + s : s}`;
+        if (remainingSeconds <= 0) {
+            progressBar.style.width = '100%';
+            countdownText.innerText = "00:00";
+            return;
         }
 
-        // --- OBSŁUGA MODALA I EDYCJI ---
-        function openModal() {
-            document.getElementById('edit-modal').classList.remove('hidden');
-            renderEditor();
-        }
+        const percentage = Math.min(100, Math.max(0, (elapsedSeconds / totalDurationSeconds) * 100));
+        progressBar.style.width = `${percentage}%`;
+        
+        const m = Math.floor(remainingSeconds / 60);
+        const s = remainingSeconds % 60;
+        countdownText.innerText = `${m}:${s < 10 ? '0' + s : s}`;
+    }
 
-        function closeModal() {
-            document.getElementById('edit-modal').classList.add('hidden');
-        }
+    document.addEventListener('DOMContentLoaded', function() {
+        generujTabele(); 
 
-        function renderEditor() {
-            const day = document.getElementById('day-selector').value;
-            const table = document.getElementById('editor-table');
-            table.innerHTML = '';
+        const schedules = document.querySelectorAll('.schedule-body');
+        const currentDayTitle = document.getElementById('current-day-title');
+        const dayIdMap = ['niedziela', 'poniedzialek', 'wtorek', 'sroda', 'czwartek', 'piatek', 'sobota'];
+        const dayNameMap = {
+            'niedziela': 'Niedziela', 'poniedzialek': 'Poniedziałek', 'wtorek': 'Wtorek',
+            'sroda': 'Środa', 'czwartek': 'Czwartek', 'piatek': 'Piątek', 'sobota': 'Sobota'
+        };
 
-            if (!currentData[day]) return;
-
-            currentData[day].forEach((row, rIdx) => {
-                const tr = document.createElement('tr');
-                tr.className = "border-b";
-                row.forEach((cell, cIdx) => {
-                    const td = document.createElement('td');
-                    if (cIdx < 2) {
-                        td.innerText = cell;
-                        td.className = "p-1 bg-gray-100 font-bold text-center border-r";
-                    } else {
-                        const input = document.createElement('input');
-                        input.value = cell;
-                        input.className = "w-full p-1 border rounded focus:bg-yellow-50 outline-none text-center";
-                        input.onchange = (e) => currentData[day][rIdx][cIdx] = e.target.value;
-                        td.appendChild(input);
-                    }
-                    tr.appendChild(td);
-                });
-                table.appendChild(tr);
+        function updateState(dayId) {
+            // 1. Resetowanie wszystkich klas
+            document.querySelectorAll('.schedule-body tr').forEach(row => {
+                row.classList.remove('highlight-row');
+                row.classList.remove('lesson-separator');
             });
-        }
 
-        function saveData() {
-            localStorage.setItem('duty_schedule_radek', JSON.stringify(currentData));
-            refreshMainTable();
-            closeModal();
-        }
+            const activeTbody = document.getElementById(`tbody-${dayId}`);
+            if (!activeTbody) {
+                document.getElementById('timer-container').classList.add('hidden');
+                return;
+            }
 
-        function resetData() {
-            if (confirm("Czy na pewno chcesz przywrócić domyślne ustawienia? Wszystkie zmiany zostaną usunięte.")) {
-                currentData = JSON.parse(JSON.stringify(DEFAULT_DATA));
-                saveData();
-                renderEditor();
+            const rows = activeTbody.querySelectorAll('tr');
+            const now = new Date();
+            const currentTimeInMinutes = now.getHours() * 60 + now.getMinutes();
+            
+            let activeFound = false;
+            let previousBreakEnd = null; // Czas zakończenia POPRZEDNIEJ przerwy (lub 8:00)
+            let previousRow = null; // Poprzedni Wiersz Przerwy
+
+            // Ustalenie godziny rozpoczęcia pierwszej lekcji/przerwy
+            const firstTimeCell = rows[0].cells[1];
+            let firstBreakStart = 8 * 60; // Domyślne 8:00
+            if (firstTimeCell) {
+                const firstTimeMatchStart = firstTimeCell.innerHTML.split('<br>')[0].match(/(\d{1,2}):(\d{2})/);
+                if (firstTimeMatchStart) {
+                    firstBreakStart = parseInt(firstTimeMatchStart[1], 10) * 60 + parseInt(firstTimeMatchStart[2], 10);
+                }
+            }
+            
+            // --- Logika dla pierwszej Lekcji (przed 1. przerwą) ---
+            if (currentTimeInMinutes < firstBreakStart) {
+                 // Załóżmy, że lekcja zaczęła się o 8:00 (lub wcześniej, jeśli jest)
+                const lessonStart = 8 * 60;
+                
+                // Ustaw timer jako "DO KOŃCA LEKCJI" (od 8:00 do 1. przerwy)
+                updateTimer(lessonStart, firstBreakStart, true);
+                
+                // Podświetl pierwszy wiersz (który jest pierwszą przerwą) jako następny
+                rows[0].classList.add('highlight-row');
+                rows[0].scrollIntoView({ behavior: 'smooth', block: 'center' });
+                activeFound = true;
+                return;
+            }
+
+
+            for (let i = 0; i < rows.length; i++) {
+                const row = rows[i];
+                const timeCell = row.cells[1]; 
+                if (!timeCell) continue;
+                
+                const timeText = timeCell.innerHTML.replace('<br>', ' ');
+                const times = timeText.trim().split(/\s+/);
+                if (times.length < 2) continue;
+
+                const timeMatchStart = times[0].match(/(\d{1,2}):(\d{2})/);
+                const timeMatchEnd = times[1].match(/(\d{1,2}):(\d{2})/);
+
+                if (timeMatchStart && timeMatchEnd) {
+                    const startHour = parseInt(timeMatchStart[1], 10);
+                    const startMinute = parseInt(timeMatchStart[2], 10);
+                    const endHour = parseInt(timeMatchEnd[1], 10);
+                    const endMinute = parseInt(timeMatchEnd[2], 10);
+
+                    const startTimeInMinutes = startHour * 60 + startMinute;
+                    const endTimeInMinutes = endHour * 60 + endMinute;
+                    
+                    // --- 1. SPRAWDŹ, CZY TO OBECNA PRZERWA ---
+                    if (currentTimeInMinutes >= startTimeInMinutes && currentTimeInMinutes < endTimeInMinutes) {
+                        row.classList.add('highlight-row');
+                        updateTimer(startTimeInMinutes, endTimeInMinutes, false); // false = PRZERWA
+                        activeFound = true;
+                        row.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        return; // KONIEC
+                    }
+                    
+                    // --- 2. SPRAWDŹ, CZY TO OBECNA LEKCJA ---
+                    // Lekcja jest między końcem poprzedniej przerwy a początkiem obecnej
+                    if (previousBreakEnd !== null) {
+                        if (currentTimeInMinutes >= previousBreakEnd && currentTimeInMinutes < startTimeInMinutes) {
+                            
+                            // Aktywny jest czas lekcji, podświetlamy POPRZEDNI WERS (lesson-separator)
+                            if (previousRow) previousRow.classList.add('lesson-separator');
+                            
+                            updateTimer(previousBreakEnd, startTimeInMinutes, true); // true = LEKCJA
+                            activeFound = true;
+                            
+                            // Scroll do poprzedniego wiersza, bo tam jest marker
+                            if(previousRow) previousRow.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                            return; // KONIEC
+                        }
+                    }
+
+                    // Uaktualnienie poprzednich wartości na koniec pętli:
+                    previousBreakEnd = endTimeInMinutes;
+                    previousRow = row;
+                }
+            }
+
+            // --- 3. COŚ PO OSTATNIEJ PRZERWIE / KONIEC DNIA ---
+            if (!activeFound) {
+                document.getElementById('timer-container').classList.add('hidden');
+                // Jeśli czas jest po ostatniej przerwie, nic nie podświetlamy i ukrywamy timer.
             }
         }
 
-        function copyRawData() {
-            const code = `const bazaDyzurow = ${JSON.stringify(currentData, null, 2)};`;
-            navigator.clipboard.writeText(code);
-            alert("Kod został skopiowany do schowka!");
+        function showScheduleForDay(dayId) {
+            // POPRAWKA: Używamy DEFAULT_DATA zamiast bazaDyzurow
+            if (!DEFAULT_DATA[dayId]) {
+                 dayId = 'poniedzialek';
+            }
+
+            schedules.forEach(tbody => tbody.classList.add('hidden'));
+            const activeTbody = document.getElementById(`tbody-${dayId}`);
+            
+            if (activeTbody) {
+                activeTbody.classList.remove('hidden');
+            }
+            
+            if (currentDayTitle && dayNameMap[dayId]) {
+                // Używamy toUpperCase() i polskiej mapy nazw dni
+                currentDayTitle.textContent = `DYŻURY: ${dayNameMap[dayId].toUpperCase()}`;
+            }
+            
+            updateState(dayId);
         }
 
-        // Start
-        setInterval(refreshMainTable, 1000);
-        refreshMainTable();
-    </script>
+        const todayIndex = new Date().getDay();
+        const defaultDayId = (todayIndex === 0 || todayIndex === 6) ? 'poniedzialek' : dayIdMap[todayIndex];
+        
+        showScheduleForDay(defaultDayId);
+
+        // Ustawienie interwału odświeżania na co sekundę
+        setInterval(() => {
+            const now = new Date();
+            const currentDayIndex = now.getDay();
+            const currentDayId = (currentDayIndex === 0 || currentDayIndex === 6) ? 'poniedzialek' : dayIdMap[currentDayIndex];
+            
+            const activeTbody = document.querySelector('.schedule-body:not(.hidden)');
+            const activeId = activeTbody ? activeTbody.id.replace('tbody-', '') : null;
+            
+            // Jeśli zmienił się dzień, przełącz widok
+            if (currentDayId !== activeId) {
+                showScheduleForDay(currentDayId);
+            } else {
+                // W przeciwnym razie, tylko aktualizuj stan
+                updateState(currentDayId);
+            }
+        }, 1000);
+    });
+</script>
+
 </body>
 </html>
