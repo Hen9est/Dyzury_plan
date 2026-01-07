@@ -260,7 +260,6 @@
 
     // Funkcja budująca HTML tabeli
     function generujTabele() {
-        // POPRAWKA: Używamy DEFAULT_DATA zamiast bazaDyzurow
         for (const [dzien, wiersze] of Object.entries(DEFAULT_DATA)) {
             const tbody = document.getElementById(`tbody-${dzien}`);
             if (!tbody) continue;
@@ -371,10 +370,17 @@
             // Ustalenie godziny rozpoczęcia pierwszej lekcji/przerwy
             const firstTimeCell = rows[0].cells[1];
             let firstBreakStart = 8 * 60; // Domyślne 8:00
+            
+            // --- POPRAWKA PARSOWANIA CZASU STARTOWEGO ---
             if (firstTimeCell) {
-                const firstTimeMatchStart = firstTimeCell.innerHTML.split('<br>')[0].match(/(\d{1,2}):(\d{2})/);
-                if (firstTimeMatchStart) {
-                    firstBreakStart = parseInt(firstTimeMatchStart[1], 10) * 60 + parseInt(firstTimeMatchStart[2], 10);
+                const text = firstTimeCell.innerText || firstTimeCell.textContent;
+                // Zakładamy format HH:MM-HH:MM. Dzielimy po myślniku.
+                const parts = text.split('-');
+                if (parts.length >= 1) {
+                     const startMatch = parts[0].match(/(\d{1,2}):(\d{2})/);
+                     if (startMatch) {
+                        firstBreakStart = parseInt(startMatch[1], 10) * 60 + parseInt(startMatch[2], 10);
+                     }
                 }
             }
             
@@ -399,12 +405,19 @@
                 const timeCell = row.cells[1]; 
                 if (!timeCell) continue;
                 
-                const timeText = timeCell.innerHTML.replace('<br>', ' ');
-                const times = timeText.trim().split(/\s+/);
-                if (times.length < 2) continue;
+                const timeText = timeCell.innerText || timeCell.textContent;
+                
+                // --- POPRAWKA PARSOWANIA ---
+                // Dzielimy string po myślniku '-' zamiast po spacji,
+                // bo dane mają format "8:00-8:10" (bez spacji)
+                const parts = timeText.split('-');
+                if (parts.length < 2) continue;
 
-                const timeMatchStart = times[0].match(/(\d{1,2}):(\d{2})/);
-                const timeMatchEnd = times[1].match(/(\d{1,2}):(\d{2})/);
+                const startStr = parts[0].trim();
+                const endStr = parts[1].trim();
+
+                const timeMatchStart = startStr.match(/(\d{1,2}):(\d{2})/);
+                const timeMatchEnd = endStr.match(/(\d{1,2}):(\d{2})/);
 
                 if (timeMatchStart && timeMatchEnd) {
                     const startHour = parseInt(timeMatchStart[1], 10);
@@ -455,7 +468,6 @@
         }
 
         function showScheduleForDay(dayId) {
-            // POPRAWKA: Używamy DEFAULT_DATA zamiast bazaDyzurow
             if (!DEFAULT_DATA[dayId]) {
                  dayId = 'poniedzialek';
             }
@@ -468,7 +480,6 @@
             }
             
             if (currentDayTitle && dayNameMap[dayId]) {
-                // Używamy toUpperCase() i polskiej mapy nazw dni
                 currentDayTitle.textContent = `DYŻURY: ${dayNameMap[dayId].toUpperCase()}`;
             }
             
