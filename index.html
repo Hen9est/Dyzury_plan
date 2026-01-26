@@ -3,17 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Plan Dyżurów - Świąteczna Edycja</title>
+    <title>Plan Dyżurów - Zimowa Edycja</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"> 
     <style>
-        /* --- ŚWIĄTECZNY KLIMAT --- */
+        /* --- ZIMOWY KLIMAT --- */
         
-        /* Tło poza ekranem - Ciemna zieleń choinkowa */
+        /* Tło poza ekranem - Zimowa noc */
         body { 
             font-family: 'Inter', sans-serif; 
-            background-color: #0f2b1d; 
-            background-image: radial-gradient(#1a4231 1px, transparent 1px);
+            background-color: #0f172a; /* Ciemny granat (slate-900) */
+            background-image: radial-gradient(#334155 1px, transparent 1px); /* Śnieg */
             background-size: 20px 20px;
             margin: 0;
             display: flex;
@@ -24,18 +24,18 @@
             overflow: auto;
         }
 
-        /* Symulacja ekranu - Świąteczna Kartka */
+        /* Symulacja ekranu - Zmrożona szybka */
         #device-screen {
             width: 640px;
             height: 500px;
-            background-color: #fffaf0; /* Ciepły kremowy */
+            background-color: #f0f9ff; /* Bardzo jasny błękit (sky-50) */
             position: relative;
             display: flex;
             flex-direction: column;
             overflow: hidden;
-            box-shadow: 0 0 40px rgba(220, 38, 38, 0.3); /* Czerwona poświata */
+            box-shadow: 0 0 40px rgba(56, 189, 248, 0.3); /* Błękitna poświata */
             flex-shrink: 0;
-            border: 8px solid #b91c1c; /* Czerwona ramka */
+            border: 8px solid #3b82f6; /* Niebieska ramka */
             border-radius: 12px;
         }
 
@@ -50,48 +50,48 @@
             z-index: 10;
         }
 
-        /* Margines bezpieczeństwa */
+        /* Margines bezpieczeństwa - Lodowy wzór */
         #safe-margin {
             height: 30px;
             width: 100%;
             background: repeating-linear-gradient(
                 45deg,
-                #b91c1c,
-                #b91c1c 10px,
-                #fca5a5 10px,
-                #fca5a5 20px
-            ); /* Pasek na dole jak laska cukrowa */
+                #3b82f6,
+                #3b82f6 10px,
+                #93c5fd 10px,
+                #93c5fd 20px
+            ); /* Pasek na dole niebieski */
             opacity: 0.8;
         }
 
-        /* Kolory nagłówków - Bardziej nasycone, świąteczne */
-        .header-green { background-color: #15803d; color: white; border-bottom: 2px solid #14532d; } /* Ciemna zieleń */
+        /* Kolory nagłówków - Zachowane dla orientacji, ale w chłodniejszej oprawie */
+        .header-green { background-color: #15803d; color: white; border-bottom: 2px solid #14532d; }
         .header-purple { background-color: #7e22ce; color: white; }
         .header-orange { background-color: #ea580c; color: white; }
-        .header-yellow { background-color: #fbbf24; color: #78350f; font-weight: bold; } /* Złoty */
-        .header-red { background-color: #dc2626; color: white; } /* Czerwień Mikołaja */
+        .header-yellow { background-color: #fbbf24; color: #78350f; font-weight: bold; }
+        .header-red { background-color: #dc2626; color: white; }
         .header-blue { background-color: #2563eb; color: white; }
         .header-gray { background-color: #4b5563; color: white; }
         
-        /* Animacja pulsowania - Złota poświata */
-        @keyframes pulse-gold {
-            0%, 100% { background-color: #fef9c3; border-left-color: #ca8a04; box-shadow: inset 0 0 10px rgba(234, 179, 8, 0.2); }
-            50% { background-color: #fde047; border-left-color: #a16207; box-shadow: inset 0 0 15px rgba(234, 179, 8, 0.5); }
+        /* Animacja pulsowania - Mroźna poświata */
+        @keyframes pulse-frost {
+            0%, 100% { background-color: #e0f2fe; border-left-color: #0ea5e9; box-shadow: inset 0 0 10px rgba(14, 165, 233, 0.2); }
+            50% { background-color: #bae6fd; border-left-color: #0284c7; box-shadow: inset 0 0 15px rgba(14, 165, 233, 0.5); }
         }
 
         .highlight-row { 
-            animation: pulse-gold 3s infinite ease-in-out;
+            animation: pulse-frost 3s infinite ease-in-out;
             font-weight: 700;
-            border-left: 4px solid #ca8a04 !important; /* Złoty pasek */
+            border-left: 4px solid #0ea5e9 !important; /* Błękitny pasek */
         }
-        .highlight-row td { color: #854d0e; }
+        .highlight-row td { color: #0c4a6e; } /* Ciemny błękit tekstu */
 
-        /* Styl czerwonej linii podczas lekcji - Girlanda */
+        /* Styl linii podczas lekcji - Mroźna linia */
         .lesson-separator td {
-            border-bottom: 3px dashed #dc2626 !important; 
+            border-bottom: 3px dashed #3b82f6 !important; 
         }
 
-        td.empty-cell { text-align: center; color: #d1d5db; font-size: 8px; }
+        td.empty-cell { text-align: center; color: #cbd5e1; font-size: 8px; }
         
         /* Tabela */
         .compact-table { table-layout: fixed; }
@@ -102,13 +102,13 @@
             text-align: center;
             white-space: normal;
             word-break: break-word;
-            border-bottom: 1px solid #e5e7eb;
-            border-right: 1px solid #f3f4f6; 
+            border-bottom: 1px solid #e2e8f0;
+            border-right: 1px solid #f1f5f9; 
             overflow: hidden;
         }
         
         .compact-table tbody tr:nth-child(even) { background-color: #fff; }
-        .compact-table tbody tr:nth-child(odd) { background-color: #fafaf9; }
+        .compact-table tbody tr:nth-child(odd) { background-color: #f8fafc; }
 
         .compact-table thead th { 
             font-size: 8px; 
@@ -120,21 +120,21 @@
             text-shadow: 0 1px 2px rgba(0,0,0,0.2);
         }
 
-        .nr-column { width: 18px; background-color: #374151; color: #e5e7eb; }
-        .hour-column { width: 35px; font-size: 8px !important; background-color: #374151; color: #e5e7eb; }
+        .nr-column { width: 18px; background-color: #475569; color: #e5e7eb; }
+        .hour-column { width: 35px; font-size: 8px !important; background-color: #475569; color: #e5e7eb; }
         .obiad-column { width: 45px; }
         
         /* Tytuł dnia */
         #current-day-title { 
-            font-family: Impact, "Arial Black", sans-serif; /* Bardzo czytelna, pogrubiona czcionka systemowa */
+            font-family: Impact, "Arial Black", sans-serif;
             font-size: 22px; 
             font-weight: 700;
-            color: #b91c1c; /* Ciemna czerwień */
+            color: #1e40af; /* Ciemny niebieski */
         }
 
-        /* Pasek postępu - Candy Cane */
+        /* Pasek postępu - Ice Stripe */
         .candy-stripe {
-            background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.3) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.3) 50%, rgba(255, 255, 255, 0.3) 75%, transparent 75%, transparent);
+            background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.4) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.4) 50%, rgba(255, 255, 255, 0.4) 75%, transparent 75%, transparent);
             background-size: 20px 20px;
             animation: move-stripes 1s linear infinite;
         }
@@ -154,13 +154,16 @@
         
         <div id="content-area">
             
-            <div class="flex items-center justify-between gap-2 mb-2 bg-white p-1 px-3 rounded-lg shadow-md border-2 border-red-100 min-h-[3rem] shrink-0 relative overflow-hidden">
+            <div class="flex items-center justify-between gap-2 mb-2 bg-white p-1 px-3 rounded-lg shadow-md border-2 border-blue-100 min-h-[3rem] shrink-0 relative overflow-hidden">
+                <!-- Zmiana SVG na płatek śniegu/zimowy motyw -->
                 <div class="absolute top-0 right-0 opacity-10 pointer-events-none">
-                    <svg width="60" height="60" viewBox="0 0 24 24" fill="currentColor" class="text-red-600"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>
+                     <svg width="60" height="60" viewBox="0 0 24 24" fill="currentColor" class="text-blue-500">
+                        <path d="M12,2L13.5,6.5L18,5L16.5,9.5L21,11L16.5,12.5L18,17L13.5,15.5L12,20L10.5,15.5L6,17L7.5,12.5L3,11L7.5,9.5L6,5L10.5,6.5L12,2M12,4.5L11,7.5L8,6.5L9,9.5L6,10.5L9,11.5L8,14.5L11,13.5L12,16.5L13,13.5L16,14.5L15,11.5L18,10.5L15,9.5L16,6.5L13,7.5L12,4.5Z" />
+                    </svg>
                 </div>
 
                 <div class="flex items-center gap-2 z-10">
-                    <span class="text-2xl">🎄</span>
+                    <span class="text-2xl">❄️</span>
                     <div id="current-day-title" class="uppercase tracking-wide whitespace-nowrap pt-1">
                         Ładowanie...
                     </div>
@@ -168,17 +171,17 @@
 
                 <div id="timer-container" class="flex items-center gap-3 flex-grow justify-end hidden z-10">
                     <div class="flex flex-col items-end leading-none">
-                        <span id="timer-label" class="text-[9px] font-bold uppercase tracking-wider text-green-700">Do końca:</span>
+                        <span id="timer-label" class="text-[9px] font-bold uppercase tracking-wider text-blue-800">Do końca:</span>
                         <span id="timer-countdown" class="text-lg font-mono font-bold text-gray-800">00:00</span>
                     </div>
                     
-                    <div class="w-28 bg-gray-200 rounded-full h-3 overflow-hidden border border-gray-300 shadow-inner">
+                    <div class="w-28 bg-blue-100 rounded-full h-3 overflow-hidden border border-blue-200 shadow-inner">
                         <div id="progress-bar" class="h-full rounded-full candy-stripe" style="width: 0%"></div>
                     </div>
                 </div>
             </div>
 
-            <main class="bg-white/90 rounded-lg shadow-lg overflow-hidden border border-green-100 flex-grow relative backdrop-blur-sm">
+            <main class="bg-white/80 rounded-lg shadow-lg overflow-hidden border border-blue-100 flex-grow relative backdrop-blur-sm">
                 <div class="h-full w-full overflow-auto">
                     <table class="w-full text-gray-700 compact-table border-collapse">
                         <thead class="text-white uppercase tracking-wider sticky top-0 z-10 shadow-sm">
@@ -296,17 +299,19 @@
 
         timerContainer.classList.remove('hidden');
 
-        // Ustawienie etykiety i kolorów paska
+        // Ustawienie etykiety i kolorów paska (Zimowa kolorystyka)
         if (isLesson) {
             timerLabel.innerText = "DO KOŃCA LEKCJI:";
-            timerLabel.className = "text-[9px] font-bold uppercase tracking-wider text-red-600";
-            progressBar.classList.remove('bg-green-500');
-            progressBar.classList.add('bg-red-500');
+            // Zmiana na zimny, ostrzegawczy niebieski
+            timerLabel.className = "text-[9px] font-bold uppercase tracking-wider text-blue-800";
+            progressBar.classList.remove('bg-teal-400'); // Usuń "przerwę"
+            progressBar.classList.add('bg-blue-600'); // Dodaj "lekcję"
         } else {
             timerLabel.innerText = "DO KOŃCA PRZERWY:";
-            timerLabel.className = "text-[9px] font-bold uppercase tracking-wider text-green-600";
-            progressBar.classList.remove('bg-red-500');
-            progressBar.classList.add('bg-green-500');
+            // Zmiana na jasny turkus
+            timerLabel.className = "text-[9px] font-bold uppercase tracking-wider text-teal-600";
+            progressBar.classList.remove('bg-blue-600');
+            progressBar.classList.add('bg-teal-400');
         }
 
         const now = new Date();
@@ -371,10 +376,9 @@
             const firstTimeCell = rows[0].cells[1];
             let firstBreakStart = 8 * 60; // Domyślne 8:00
             
-            // --- POPRAWKA PARSOWANIA CZASU STARTOWEGO ---
+            // --- PARSOWANIA CZASU STARTOWEGO ---
             if (firstTimeCell) {
                 const text = firstTimeCell.innerText || firstTimeCell.textContent;
-                // Zakładamy format HH:MM-HH:MM. Dzielimy po myślniku.
                 const parts = text.split('-');
                 if (parts.length >= 1) {
                      const startMatch = parts[0].match(/(\d{1,2}):(\d{2})/);
@@ -407,9 +411,6 @@
                 
                 const timeText = timeCell.innerText || timeCell.textContent;
                 
-                // --- POPRAWKA PARSOWANIA ---
-                // Dzielimy string po myślniku '-' zamiast po spacji,
-                // bo dane mają format "8:00-8:10" (bez spacji)
                 const parts = timeText.split('-');
                 if (parts.length < 2) continue;
 
